@@ -1,1 +1,3 @@
 # DobbleAlgorithm
+
+Python + Java implementation
