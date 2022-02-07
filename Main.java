@@ -14,37 +14,35 @@ public class Main {
 
         final int symbolsPerCard = 8;
         final int arraySize = symbolsPerCard - 1;
-        final int possibleCards = (int) Math.pow(arraySize, 2) + symbolsPerCard;
-        final int maxCards = 55;
+        final int cardsAmount = 55;
 
-        // Fill with slopes from 1 to 8
-        int[] startNodes = new int[symbolsPerCard];
-        for (int i = 0; i < symbolsPerCard; i++) {
-            startNodes[i] = i + 1;
-        }
-
-        // Cards
-        int[][] cards = new int[possibleCards][symbolsPerCard];
-
+        int[][] cards = new int[cardsAmount][symbolsPerCard];
         int currentCard = 0;
-        for (int slope : startNodes) {
-            for (int x = 0; x < arraySize; x++) {
-                int[] card = new int[symbolsPerCard];
-                card[0] = slope;
 
-                int sym = 1;
-                for (int y = 0; y < arraySize; y++) {
-                    card[sym++] = (symbolsPerCard + arraySize * y + ((slope * y + x) % arraySize)) + 1;
+        // Fill int array
+        for (int i = 0; i < symbolsPerCard; i++) {
+            int slope = i + 1;
+
+            // Assign to cards[0]
+            cards[0][i] = slope;
+
+            for (int x = 0; x < arraySize; x++) {
+                if (currentCard + 1 < cardsAmount) {
+                    cards[++currentCard][0] = slope;
+                    int sym = 1;
+
+                    for (int y = 0; y < arraySize; y++) {
+                        int value = (symbolsPerCard + arraySize * y + ((slope * y + x) % arraySize)) + 1;
+                        cards[currentCard][sym++] = value;
+                    }
                 }
-                cards[currentCard++] = card;
             }
         }
 
-        // Print output
-        for (int i = 0; i < maxCards; i++) {
-            System.out.print(i + " ");
-            for (int sym : cards[i]) {
-                System.out.print(symbols[sym - 1] + ", ");
+        for (int card = 0; card < cardsAmount; card++) {
+            System.out.print("[" + String.valueOf(card + 1) + "] -");
+            for (int i = 0; i < symbolsPerCard; i++) {
+                System.out.print(" " + symbols[cards[card][i] - 1] + " |");
             }
             System.out.println();
         }
